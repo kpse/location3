@@ -1,13 +1,13 @@
 package com.kulebao.handler
 
-import akka.actor.{Actor, ActorRef, Props}
+import akka.actor.{ActorLogging, Actor, ActorRef, Props}
 import akka.io.Tcp._
 
 trait HandlerProps {
   def props(connection: ActorRef): Props
 }
 
-abstract class Handler(val connection: ActorRef) extends Actor {
+abstract class Handler(val connection: ActorRef) extends Actor with ActorLogging {
 
   val abort = "(?i)abort".r
   val confirmedClose = "(?i)confirmedclose".r
