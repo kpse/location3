@@ -17,7 +17,7 @@ class TcpServer(handlerProps: HandlerProps) extends Server {
 
   import context.system
 
-  IO(Tcp) ! Tcp.Bind(self, new InetSocketAddress("", 8888))
+  IO(Tcp) ! Tcp.Bind(self, new InetSocketAddress(7755))
 
   override def receive = {
     case Tcp.CommandFailed(_: Tcp.Bind) => context stop self
