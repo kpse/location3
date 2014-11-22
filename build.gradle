@@ -9,12 +9,26 @@ repositories {
 }
 
 dependencies {
-    compile (
+    compile(
             'com.typesafe.akka:akka-actor_2.10:2.2.0',
+            'com.typesafe.akka:akka-slf4j_2.10:2.2.0',
             'org.scala-lang:scala-library:2.10.3',
             "joda-time:joda-time:2.3",
             "org.joda:joda-convert:1.2",
+            "org.slf4j:slf4j-api:1.7.7",
+            "ch.qos.logback:logback-classic:1.+",
     )
+}
+
+
+applicationDefaultJvmArgs = ["-Dconfig.resource=reference.conf -Dlogback.configurationFile=logback.xml"]
+
+task createConf {
+    outputs.dir file("main/resources/logback.xml")
+}
+
+applicationDistribution.from(createConf) {
+    into "conf"
 }
 
 mainClassName = 'com.kulebao.MainWithEchoHandler'
