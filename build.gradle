@@ -1,0 +1,16 @@
+apply plugin: 'scala'
+apply plugin: 'idea'
+
+sourceCompatibility = 1.8
+version = '1.0'
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile (
+            'com.typesafe.akka:akka-actor_2.10:2.2.0',
+            'org.scala-lang:scala-library:2.10.3',
+    )
+}
+
