@@ -11,7 +11,8 @@ object Pool {
   val configuration = new Configuration(username = Conf.dbUsername,
     port = Conf.dbPort,
     password = Some(Conf.dbPassword),
-    database = Some(Conf.dbName))
+    database = Some(Conf.dbName),
+    host = Conf.dbHost)
 
   val factory = new MySQLConnectionFactory(configuration)
   val pool = new ConnectionPool(factory, new PoolConfiguration(Conf.dbPoolMaxObjects, Conf.dbPoolMaxIdle, Conf.dbPoolMaxQueueSize))
