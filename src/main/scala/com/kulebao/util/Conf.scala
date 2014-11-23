@@ -15,4 +15,7 @@ object Conf {
   val dbPoolMaxObjects = config.getInt("location.db.pool.maxObjects")
   val dbPoolMaxIdle = config.getInt("location.db.pool.maxIdle")
   val dbPoolMaxQueueSize = config.getInt("location.db.pool.maxQueueSize")
+
+  println(dbHost)
+  println(dbName)
 }

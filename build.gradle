@@ -25,15 +25,6 @@ dependencies {
     )
 }
 
-
-applicationDefaultJvmArgs = ["-Dconfig.resource=reference.conf -Dlogback.configurationFile=logback.xml"]
-
-task createConf {
-    outputs.dir file("main/resources/logback.xml")
-}
-
-applicationDistribution.from(createConf) {
-    into "conf"
-}
+applicationDefaultJvmArgs = ["-Dconfig.file=/var/location/config/application.conf", "-Dlogback.configurationFile=/var/location/config/logback.xml"]
 
 mainClassName = 'com.kulebao.MainWithTcpHandler'

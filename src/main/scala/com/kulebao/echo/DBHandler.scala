@@ -23,7 +23,7 @@ class DbHandler(connection: ActorRef) extends Handler(connection) with DB {
   def received(data: String) {
     log.debug(data)
     println(data)
-    execute("INSERT INTO demo VALUES (?)", data + "--" + new Date).foreach(_ => printAll())
+    execute("INSERT INTO demo (data) VALUES (?)", data + "--" + new Date).foreach(_ => printAll())
   }
 
   /**
@@ -62,7 +62,7 @@ class DbWriter extends UntypedActor with DB with ActorLogging {
     println(s"about to record: $message $clazz")
     message match {
       case data: String =>
-        execute("INSERT INTO demo VALUES (?)", data + "--" + new Date)
+        execute("INSERT INTO demo (data) VALUES (?)", data + "--" + new Date)
         log.debug(data)
         println(data)
       case _ => log.debug("not supported!")

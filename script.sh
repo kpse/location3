@@ -1,5 +1,9 @@
 #!/bin/sh
 
+function load_env {
+  [ -f ./kulebao_config/location_env.sh ] && source ./kulebao_config/location_env.sh
+}
+
 function build_local {
   gradle clean test
 }
@@ -33,6 +37,7 @@ function push_and_deploy {
 }
 
 function deploy {
+    load_env && \
     gradle clean distZip && deploy_prod stage.cocobabys.com
 }
 
