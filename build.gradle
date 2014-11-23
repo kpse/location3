@@ -12,11 +12,16 @@ dependencies {
     compile(
             'com.typesafe.akka:akka-actor_2.10:2.2.0',
             'com.typesafe.akka:akka-slf4j_2.10:2.2.0',
+            "com.github.mauricio:mysql-async_2.10:0.2.15",
+            "com.typesafe:config:1.0.2",
             'org.scala-lang:scala-library:2.10.3',
             "joda-time:joda-time:2.3",
             "org.joda:joda-convert:1.2",
             "org.slf4j:slf4j-api:1.7.7",
             "ch.qos.logback:logback-classic:1.+",
+    )
+    testCompile (
+            "org.scalatest:scalatest_2.10:1.9.1",
     )
 }
 
@@ -31,4 +36,4 @@ applicationDistribution.from(createConf) {
     into "conf"
 }
 
-mainClassName = 'com.kulebao.MainWithEchoHandler'
+mainClassName = 'com.kulebao.MainWithTcpHandler'
