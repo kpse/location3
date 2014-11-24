@@ -58,14 +58,21 @@ class DbWriter extends UntypedActor with DB with ActorLogging {
 
   @throws(classOf[Exception])
   override def onReceive(message: Any): Unit = {
-    val clazz: Class[_] = message.getClass
-    println(s"about to record: $message $clazz")
     message match {
       case data: String =>
-        execute("INSERT INTO demo (data) VALUES (?)", data + "--" + new Date)
-        log.debug(data)
-        println(data)
-      case _ => log.debug("not supported!")
+        data.split(",") match {
+          case fields: Array[String] if fields.length == 13 =>
+            val all = fields.tail.mkString("','").replaceFirst("#$", "")
+            val sql: String = s"INSERT INTO records (device_id, cmd, time, valid, latitude, latitude_direction, longitude, longitude_direction, speed, direction, date, tracker_status) values ('$all');"
+            execute(sql)
+            log.debug(sql)
+          case _ =>
+            log.debug(s"record to demo: $data")
+            log.debug(s"record to demo: $data")
+            execute("INSERT INTO demo (data) VALUES (?)", data + "--" + new Date)
+        }
+      case _ =>
+        log.debug("not supported!")
         println("not supported!")
     }
   }
