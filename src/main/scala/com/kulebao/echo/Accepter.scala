@@ -29,7 +29,7 @@ class EchoHandler(connection: ActorRef) extends Handler(connection) with DB {
     val time: DateTime = DateTime.now()
     val formattedTime = time.toString("HHmmss")
 
-    val output: String = s"$prefix,D1,$formattedTime,5,1#"
+    val output: String = s"$prefix,D1,$formattedTime,60,1#"
     log.debug(s"reply: $output")
     ByteString(output)
   }
