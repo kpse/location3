@@ -25,6 +25,4 @@ dependencies {
     )
 }
 
-applicationDefaultJvmArgs = ["-Dconfig.file=/var/location/config/application.conf", "-Dlogback.configurationFile=/var/location/config/logback.xml"]
-
 mainClassName = 'com.kulebao.MainWithTcpHandler'
