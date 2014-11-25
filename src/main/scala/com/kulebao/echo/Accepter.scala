@@ -14,20 +14,21 @@ object EchoHandlerProps extends HandlerProps {
   def props(connection: ActorRef) = Props(classOf[EchoHandler], connection)
 }
 
-class EchoHandler(connection: ActorRef) extends Handler(connection) with DB {
+class EchoHandler(connection: ActorRef) extends Handler(connection) {
 
   def received(data: String) = {
-    connection ! Write(reply(data))
+    log.debug(s"received: $data")
+    if (false)
+      connection ! Write(reply(data))
     val actor: ActorRef = context.actorOf(Props[DbWriter])
-    actor ! data
+    data.split("#\\*").foreach(actor ! _)
   }
 
   def reply(input: String): ByteString = {
-    log.debug(s"receive: $input")
+    println(input)
     val prefix = input.split(",").take(2).mkString(",")
 
-    val time: DateTime = DateTime.now()
-    val formattedTime = time.toString("HHmmss")
+    val formattedTime = DateTime.now().toString("HHmmss")
 
     val output: String = s"$prefix,D1,$formattedTime,60,1#"
     log.debug(s"reply: $output")

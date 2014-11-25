@@ -61,14 +61,22 @@ class DbWriter extends UntypedActor with DB with ActorLogging {
     message match {
       case data: String =>
         data.split(",") match {
-          case fields: Array[String] if fields.length == 13 =>
+          case fields: Array[String] if fields.length > 2 && fields(2).equals("V1") =>
+            println(s"V1 cmd")
+            val all = fields.tail.mkString("','").replaceFirst("#$", "")
+            val sql: String = s"INSERT INTO records (device_id, cmd, time, valid, latitude, latitude_direction, longitude, longitude_direction, speed, direction, date, tracker_status) values ('$all');"
+            execute(sql)
+            log.debug(sql)
+          case fields: Array[String] if fields.length > 2 && fields(2).equals("NBR") =>
+            println(s"NBR cmd")
             val all = fields.tail.mkString("','").replaceFirst("#$", "")
             val sql: String = s"INSERT INTO records (device_id, cmd, time, valid, latitude, latitude_direction, longitude, longitude_direction, speed, direction, date, tracker_status) values ('$all');"
             execute(sql)
             log.debug(sql)
           case _ =>
+            println(s"record to demo: $data")
             log.debug(s"record to demo: $data")
-            log.debug(s"record to demo: $data")
+            println(s"record to demo: $data")
             execute("INSERT INTO demo (data) VALUES (?)", data + "--" + new Date)
         }
       case _ =>

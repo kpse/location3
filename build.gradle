@@ -12,6 +12,7 @@ dependencies {
     compile(
             'com.typesafe.akka:akka-actor_2.10:2.2.0',
             'com.typesafe.akka:akka-slf4j_2.10:2.2.0',
+            'com.typesafe.akka:akka-testkit_2.10:2.2.0',
             "com.github.mauricio:mysql-async_2.10:0.2.15",
             "com.typesafe:config:1.0.2",
             'org.scala-lang:scala-library:2.10.3',
@@ -25,6 +26,13 @@ dependencies {
     )
 }
 
-applicationDefaultJvmArgs = ["-Dconfig.file=/var/location/config/application.conf", "-Dlogback.configurationFile=/var/location/config/logback.xml"]
+task spec(dependsOn: ['testClasses'], type: JavaExec) {
+    main = 'org.scalatest.tools.Runner'
+    args = ['-R', 'build/classes/test', '-o']
+    classpath = sourceSets.test.runtimeClasspath
+}
+
+
+//applicationDefaultJvmArgs = ["-Dconfig.file=/var/location/config/application.conf", "-Dlogback.configurationFile=/var/location/config/logback.xml"]
 
 mainClassName = 'com.kulebao.MainWithTcpHandler'
