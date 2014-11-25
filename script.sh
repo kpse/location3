@@ -5,7 +5,7 @@ function load_env {
 }
 
 function build_local {
-  gradle clean test
+  gradle clean test spec
 }
 
 function build_and_push {
