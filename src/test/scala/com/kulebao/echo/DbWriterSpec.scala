@@ -7,30 +7,24 @@ import akka.util.ByteString
 import org.scalatest.matchers.MustMatchers
 import org.scalatest.{BeforeAndAfterAll, WordSpec}
 
-class EchoHandlerSpec(_system: ActorSystem)
+class DbWriterSpec(_system: ActorSystem)
   extends TestKit(_system)
   with ImplicitSender
   with WordSpec
   with MustMatchers
   with BeforeAndAfterAll {
 
-  def this() = this(ActorSystem("EchoHandlerSpec"))
+  def this() = this(ActorSystem("DbWriterSpec"))
 
   override def afterAll {
     TestKit.shutdownActorSystem(system)
   }
 
-  "A EchoHandler" must {
+  "A DbWriter" must {
 
     "not echo the message" in {
       val handler = system.actorOf(EchoHandlerProps.props(testActor))
       handler ! Received(ByteString("hello"))
-      expectNoMsg
-    }
-
-    "split the message by '#*'" in {
-      val handler = system.actorOf(EchoHandlerProps.props(testActor))
-      handler ! Received(ByteString("hello#*hellp"))
       expectNoMsg
     }
 

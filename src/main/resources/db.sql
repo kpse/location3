@@ -15,5 +15,18 @@ CREATE TABLE records (
   PRIMARY KEY (uid)
 );
 
-INSERT INTO records (device_id, cmd, time, valid, latitude, latitude_direction, longitude, longitude_direction, speed, direction, date, tracker_status)
-values ('3333355555','V1','131122','A','120.123123','D','120.123123','G','3.121','N','DDMMYY','0011');
+CREATE TABLE nbr_records (
+  uid       INT(11)      NOT NULL AUTO_INCREMENT,
+  device_id CHAR(10)  NOT NULL,
+  `time`     CHAR(6) NOT NULL,
+  mcc VARCHAR(3)  NOT NULL,
+  mnc VARCHAR(3)  NOT NULL,
+  ta VARCHAR(10) NOT NULL,
+  num CHAR(1)  NOT NULL,
+  lac VARCHAR(5) NOT NULL,
+  cid VARCHAR(5) NOT NULL,
+  rxlev VARCHAR(5) NOT NULL,
+  `date` CHAR(6),
+  tracker_status CHAR(10),
+  PRIMARY KEY (uid)
+);
