@@ -59,6 +59,7 @@ class DbWriter extends UntypedActor with DB with ActorLogging {
 
   val cmdV1 = """^\*\w{2},(\w+?),V1,(\d{6}),(.+?),(.+?),(.+?),(.+?),(.+?),(.+?),(.+?),(\d{6}),(.+?)#$""".r
   val cmdNBR = """^\*\w{2},(\w+?),NBR,(\d{6}),(\d+),(\d+),(\d+),(\d+)((:?,\d+,\d+,\d+)+),(\d{6}),(.+?)#$""".r
+  val cmdLink = """^\*\w{2},(\w+?),LINK,(\d{6}),(\d+),(\d+),(\d+),(\d+),(\d+),(\d+),(\d+),(\d{6}),(.+?)#$""".r
 
   @throws(classOf[Exception])
   override def onReceive(message: Any): Unit = {
@@ -78,6 +79,12 @@ class DbWriter extends UntypedActor with DB with ActorLogging {
                 "(?,?,?,?,?,?,?,?,?,?,?);"
               execute(sql, id, time, mcc, mnc, ta, num, arr(0), arr(1), arr(2), date, status)
             }
+          case cmdLink(id, time, gsm, gps, bat, step, turnover, ex1, ex2, date, status) =>
+            println(s"LINK cmd")
+            val sql: String = "INSERT INTO link_records (device_id, time, gsm, gps, bat, step, turnover, ex1, ex2, date, tracker_status) values " +
+              "(?,?,?,?,?,?,?,?,?,?,?);"
+            execute(sql, id, time, gsm, gps, bat, step, turnover, ex1, ex2, date, status)
+
           case _ =>
             println(s"record to demo: $data")
             log.debug(s"record to demo: $data")
