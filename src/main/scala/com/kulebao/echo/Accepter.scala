@@ -4,11 +4,11 @@ import akka.actor._
 import com.kulebao.handler._
 
 
-object EchoHandlerProps extends HandlerProps {
-  def props(connection: ActorRef) = Props(classOf[EchoHandler], connection)
+object DispatcherProps extends HandlerProps {
+  def props(connection: ActorRef) = Props(classOf[Dispatcher], connection)
 }
 
-class EchoHandler(connection: ActorRef) extends Handler(connection) {
+class Dispatcher(connection: ActorRef) extends Handler(connection) {
 
   def received(data: String) = {
     log.debug(s"received: $data")

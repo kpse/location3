@@ -8,7 +8,7 @@ import com.typesafe.config.{Config, ConfigFactory}
 object MainWithTcpHandler extends App {
   val conf: Config = ConfigFactory.load()
   val system = ActorSystem("server", conf)
-  val service = system.actorOf(TcpServer.props(EchoHandlerProps), "ServerActor")
+  val service = system.actorOf(TcpServer.props(DispatcherProps), "ServerActor")
 }
 
 object MainWithDBHandler extends App {

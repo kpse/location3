@@ -23,19 +23,19 @@ class EchoHandlerSpec(_system: ActorSystem)
   "A EchoHandler" must {
 
     "not echo the message" in {
-      val handler = system.actorOf(EchoHandlerProps.props(testActor))
+      val handler = system.actorOf(DispatcherProps.props(testActor))
       handler ! Received(ByteString("hello"))
       expectNoMsg
     }
 
     "split the message by '#*'" in {
-      val handler = system.actorOf(EchoHandlerProps.props(testActor))
+      val handler = system.actorOf(DispatcherProps.props(testActor))
       handler ! Received(ByteString("hello#*hellp"))
       expectNoMsg
     }
 
     "send Close message to connection if close message is received" in {
-      val handler = system.actorOf(EchoHandlerProps.props(testActor))
+      val handler = system.actorOf(DispatcherProps.props(testActor))
       watch(handler)
       val data = ByteString("close")
       handler ! Received(data)
@@ -43,35 +43,35 @@ class EchoHandlerSpec(_system: ActorSystem)
     }
 
     "close itself if ErrorClosed is received" in {
-      val handler = system.actorOf(EchoHandlerProps.props(testActor))
+      val handler = system.actorOf(DispatcherProps.props(testActor))
       watch(handler)
       handler ! ErrorClosed
       expectTerminated(handler)
     }
 
     "close itself if Closed is received" in {
-      val handler = system.actorOf(EchoHandlerProps.props(testActor))
+      val handler = system.actorOf(DispatcherProps.props(testActor))
       watch(handler)
       handler ! Closed
       expectTerminated(handler)
     }
 
     "close itself if peer closed" in {
-      val handler = system.actorOf(EchoHandlerProps.props(testActor))
+      val handler = system.actorOf(DispatcherProps.props(testActor))
       watch(handler)
       handler ! PeerClosed
       expectTerminated(handler)
     }
 
     "close itself if confirmed closed" in {
-      val handler = system.actorOf(EchoHandlerProps.props(testActor))
+      val handler = system.actorOf(DispatcherProps.props(testActor))
       watch(handler)
       handler ! ConfirmedClosed
       expectTerminated(handler)
     }
 
     "close itself if aborted" in {
-      val handler = system.actorOf(EchoHandlerProps.props(testActor))
+      val handler = system.actorOf(DispatcherProps.props(testActor))
       watch(handler)
       handler ! Aborted
       expectTerminated(handler)

@@ -23,13 +23,13 @@ class DbWriterSpec(_system: ActorSystem)
   "A DbWriter" must {
 
     "not echo the message" in {
-      val handler = system.actorOf(EchoHandlerProps.props(testActor))
+      val handler = system.actorOf(DispatcherProps.props(testActor))
       handler ! Received(ByteString("hello"))
       expectNoMsg
     }
 
     "send Close message to connection if close message is received" in {
-      val handler = system.actorOf(EchoHandlerProps.props(testActor))
+      val handler = system.actorOf(DispatcherProps.props(testActor))
       watch(handler)
       val data = ByteString("close")
       handler ! Received(data)
@@ -37,35 +37,35 @@ class DbWriterSpec(_system: ActorSystem)
     }
 
     "close itself if ErrorClosed is received" in {
-      val handler = system.actorOf(EchoHandlerProps.props(testActor))
+      val handler = system.actorOf(DispatcherProps.props(testActor))
       watch(handler)
       handler ! ErrorClosed
       expectTerminated(handler)
     }
 
     "close itself if Closed is received" in {
-      val handler = system.actorOf(EchoHandlerProps.props(testActor))
+      val handler = system.actorOf(DispatcherProps.props(testActor))
       watch(handler)
       handler ! Closed
       expectTerminated(handler)
     }
 
     "close itself if peer closed" in {
-      val handler = system.actorOf(EchoHandlerProps.props(testActor))
+      val handler = system.actorOf(DispatcherProps.props(testActor))
       watch(handler)
       handler ! PeerClosed
       expectTerminated(handler)
     }
 
     "close itself if confirmed closed" in {
-      val handler = system.actorOf(EchoHandlerProps.props(testActor))
+      val handler = system.actorOf(DispatcherProps.props(testActor))
       watch(handler)
       handler ! ConfirmedClosed
       expectTerminated(handler)
     }
 
     "close itself if aborted" in {
-      val handler = system.actorOf(EchoHandlerProps.props(testActor))
+      val handler = system.actorOf(DispatcherProps.props(testActor))
       watch(handler)
       handler ! Aborted
       expectTerminated(handler)
