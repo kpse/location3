@@ -3,6 +3,7 @@ package com.kulebao.echo
 import akka.actor.{ActorLogging, ActorRef, Props, UntypedActor}
 import akka.io.Tcp.Write
 import akka.util.ByteString
+import com.kulebao.CmdPattern
 import com.kulebao.handler.HandlerProps
 import org.joda.time.DateTime
 
@@ -12,8 +13,6 @@ object AnswerLinkProps extends HandlerProps {
 
 class AnswerLink(connection: ActorRef) extends UntypedActor with ActorLogging {
 
-  val cmdLink = """^\*\w{2},(\w+?),LINK,(\d{6}),(\d+),(\d+),(\d+),(\d+),(\d+),(\d+),(\d+),(\d{6}),(.+?)#$""".r
-
   @throws(classOf[Exception])
   override def onReceive(message: Any): Unit = {
     message match {
@@ -22,7 +21,7 @@ class AnswerLink(connection: ActorRef) extends UntypedActor with ActorLogging {
         println(s"AnswerLink received: $data")
         log.debug(s"received: $data")
         data match {
-          case cmdLink(id, time, gsm, gps, bat, step, turnover, ex1, ex2, date, status) =>
+          case CmdPattern.cmdLink(id, time, gsm, gps, bat, step, turnover, ex1, ex2, date, status) =>
             log.debug("link cmd, reply D1 cmd")
             connection ! Write(reply(data))
           case _ =>
