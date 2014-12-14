@@ -24,6 +24,7 @@ class AnswerLink(connection: ActorRef) extends UntypedActor with ActorLogging {
           case CmdPattern.cmdLink(id, time, gsm, gps, bat, step, turnover, ex1, ex2, date, status) =>
             log.debug("link cmd, reply D1 cmd")
             connection ! Write(reply(data))
+            connection ! Write(powerQuery(data))
           case _ =>
             log.debug("not a link cmd, don't reply")
         }
@@ -41,6 +42,17 @@ class AnswerLink(connection: ActorRef) extends UntypedActor with ActorLogging {
 
     val output: String = s"$prefix,D1,$formattedTime,60,1#"
     log.debug(s"reply: $output")
+    ByteString(output)
+  }
+
+  def powerQuery(input: String): ByteString = {
+    println(input)
+    val prefix = input.split(",").take(2).mkString(",")
+
+    val formattedTime = DateTime.now().toString("HHmmss")
+
+    val output: String = s"$prefix,CK,$formattedTime#"
+    log.debug(s"powerQuery: $output")
     ByteString(output)
   }
 }

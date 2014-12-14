@@ -12,11 +12,11 @@ class Dispatcher(connection: ActorRef) extends Handler(connection) {
 
   def received(data: String) = {
     log.debug(s"received: $data")
-    val actor: ActorRef = context.actorOf(Props[DbWriter])
+    val dbWriter: ActorRef = context.actorOf(Props[DbWriter])
     val linkAnswer: ActorRef = context.actorOf(AnswerLinkProps.props(connection))
     data.split("#\\*").foreach {
       (cmd) =>
-        actor ! cmd
+        dbWriter ! cmd
         linkAnswer ! cmd
     }
 
